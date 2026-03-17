@@ -72,37 +72,28 @@
   </div>
 
   <script>
-    async function carregarDados() {
-      const url = "https://script.google.com/macros/s/AKfycbdkWPQgjBEMEwURcL8ylrV-Afyf3_CB01ekWKcaluBt3sxCKEpXK1ASIOL7JWd4FeWC/exec";
+    function carregar() {
+      let lista = JSON.parse(localStorage.getItem("funcionarios")) || [];
+      let tabela = document.getElementById("tabela");
 
-      try {
-        const resposta = await fetch(url);
-        const dados = await resposta.json();
+      tabela.innerHTML = "";
 
-        const tabela = document.getElementById("tabela");
-        tabela.innerHTML = "";
-
-        dados.forEach(func => {
-          const linha = `
-            <tr>
-              <td>${func.nome}</td>
-              <td>${func.cpf}</td>
-              <td>${func.cargo}</td>
-              <td>${func.telefone}</td>
-              <td>${func.email}</td>
-              <td>${func.experiencia}</td>
-              <td>${func.status}</td>
-            </tr>
-          `;
-          tabela.innerHTML += linha;
-        });
-
-      } catch (erro) {
-        alert("Erro ao carregar dados: " + erro);
-      }
+      lista.forEach(func => {
+        tabela.innerHTML += `
+          <tr>
+            <td>${func.nome}</td>
+            <td>${func.cpf}</td>
+            <td>${func.cargo}</td>
+            <td>${func.telefone}</td>
+            <td>${func.email}</td>
+            <td>${func.experiencia}</td>
+            <td>${func.status}</td>
+          </tr>
+        `;
+      });
     }
 
-    carregarDados();
+    carregar();
   </script>
 
 </body>
