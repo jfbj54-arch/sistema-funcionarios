@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Formulário do Funcionário</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  font-family: Arial;
+  background: #f1f8e9;
+  padding: 20px;
+  margin: 0;
+}
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+button {
+  padding: 12px;
+  background: #43a047;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 15px;
+}
+button:hover {
+  background: #2e7d32;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Cadastro de Funcionário</h2>
+
+  <input id="nome" placeholder="Nome completo">
+  <input id="cpf" placeholder="CPF">
+  <input id="cargo" placeholder="Cargo desejado">
+  <input id="telefone" placeholder="Telefone">
+  <input id="email" placeholder="E-mail">
+  <textarea id="experiencia" placeholder="Experiência profissional"></textarea>
+
+  <button onclick="enviar()">Enviar</button>
+</div>
+
+<script>
+function enviar() {
+  const funcionario = {
+    nome: nome.value,
+    cpf: cpf.value,
+    cargo: cargo.value,
+    telefone: telefone.value,
+    email: email.value,
+    experiencia: experiencia.value,
+    status: "Pendente"
+  };
+
+  let lista = JSON.parse(localStorage.getItem("funcionarios")) || [];
+  lista.push(funcionario);
+  localStorage.setItem("funcionarios", JSON.stringify(lista));
+
+  alert("Formulário enviado com sucesso!");
+  location.reload();
+}
+</script>
+
+</body>
+</html>
