@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel RH</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  font-family: Arial;
+  background: #fff3e0;
+  padding: 20px;
+  margin: 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 14px;
+}
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.aprovar {
+  background: #4caf50;
+  color: white;
+}
+.reprovar {
+  background: #e53935;
+  color: white;
+}
+.excluir {
+  background: #b71c1c;
+  color: white;
+}
+.status {
+  font-weight: bold;
+}
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  td {
+    border: none;
+    padding: 5px 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<h2>Painel do RH</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Nome</th>
+  <th>CPF</th>
+  <th>Cargo</th>
+  <th>Telefone</th>
+  <th>E-mail</th>
+  <th>Status</th>
+  <th>Ações</th>
+</tr>
+</thead>
+<tbody id="tabela"></tbody>
+</table>
+
+<script>
+function carregar() {
+  const tabela = document.getElementById("tabela");
+  tabela.innerHTML = "";
+
+  let lista = JSON.parse(localStorage.getItem("funcionarios")) || [];
+
+  lista.forEach((f, i) => {
+    tabela.innerHTML += `
+      <tr>
+        <td>${f.nome}</td>
+        <td>${f.cpf}</td>
+        <td>${f.cargo}</td>
+        <td>${f.telefone}</td>
+        <td>${f.email}</td>
+        <td class="status">${f.status}</td>
+        <td>
+          <button class="aprovar" onclick="atualizar(${i}, 'Aprovado')">Aprovar</button>
+          <button class="reprovar" onclick="atualizar(${i}, 'Reprovado')">Reprovar</button>
+          <button class="excluir" onclick="excluir(${i})">Excluir</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function atualizar(index, novoStatus) {
+  let lista = JSON.parse(localStorage.getItem("funcionarios"));
+  lista[index].status = novoStatus;
+  localStorage.setItem("funcionarios", JSON.stringify(lista));
+  carregar();
+}
+
+function excluir(index) {
+  if (confirm("Tem certeza que deseja excluir este colaborador?")) {
+    let lista = JSON.parse(localStorage.getItem("funcionarios"));
+    lista.splice(index, 1);
+    localStorage.setItem("funcionarios", JSON.stringify(lista));
+    carregar();
+  }
+}
+
+carregar();
+</script>
+
+</body>
+</html>
