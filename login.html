@@ -67,16 +67,16 @@
 
   <script>
     function logar() {
-      const user = usuario.value;
-      const pass = senha.value;
+      const user = document.getElementById("usuario").value.trim();
+      const pass = document.getElementById("senha").value.trim();
 
-      // LOGIN FIXO (pode mudar se quiser)
+      // LOGIN FIXO — pode mudar se quiser
       const usuarioCorreto = "rh";
       const senhaCorreta = "1234";
 
       if (user === usuarioCorreto && pass === senhaCorreta) {
         alert("Login realizado com sucesso!");
-        window.location.href = "rh.html";
+        window.location.href = "rh.html"; // Certifique-se que o arquivo existe com esse nome
       } else {
         alert("Usuário ou senha incorretos!");
       }
