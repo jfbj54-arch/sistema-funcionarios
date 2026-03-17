@@ -47,6 +47,19 @@
     tr:nth-child(even) {
       background: #f9f9f9;
     }
+
+    button {
+      padding: 6px 10px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: darkred;
+    }
   </style>
 </head>
 
@@ -65,6 +78,7 @@
           <th>Email</th>
           <th>Experiência</th>
           <th>Status</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody id="tabela"></tbody>
@@ -73,24 +87,41 @@
 
   <script>
     function carregar() {
-      let lista = JSON.parse(localStorage.getItem("funcionarios")) || [];
-      let tabela = document.getElementById("tabela");
+      let lista = JSON.parse(localStorage.getItem("funcionarios"));
 
+      // Se não existir lista, cria uma vazia
+      if (!Array.isArray(lista)) {
+        lista = [];
+        localStorage.setItem("funcionarios", JSON.stringify(lista));
+      }
+
+      let tabela = document.getElementById("tabela");
       tabela.innerHTML = "";
 
-      lista.forEach(func => {
+      lista.forEach((func, index) => {
         tabela.innerHTML += `
           <tr>
-            <td>${func.nome}</td>
-            <td>${func.cpf}</td>
-            <td>${func.cargo}</td>
-            <td>${func.telefone}</td>
-            <td>${func.email}</td>
-            <td>${func.experiencia}</td>
-            <td>${func.status}</td>
+            <td>${func.nome || ""}</td>
+            <td>${func.cpf || ""}</td>
+            <td>${func.cargo || ""}</td>
+            <td>${func.telefone || ""}</td>
+            <td>${func.email || ""}</td>
+            <td>${func.experiencia || ""}</td>
+            <td>${func.status || "Pendente"}</td>
+            <td><button onclick="excluir(${index})">Excluir</button></td>
           </tr>
         `;
       });
+    }
+
+    function excluir(indice) {
+      let lista = JSON.parse(localStorage.getItem("funcionarios")) || [];
+
+      if (confirm("Deseja realmente excluir este cadastro?")) {
+        lista.splice(indice, 1);
+        localStorage.setItem("funcionarios", JSON.stringify(lista));
+        carregar();
+      }
     }
 
     carregar();
