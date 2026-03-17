@@ -81,20 +81,12 @@
         status: "Pendente"
       };
 
-      fetch("https://script.google.com/macros/s/AKfycbdkWPQgjBEMEwURcL8ylrV-Afyf3_CB01ekWKcaluBt3sxCKEpXK1ASIOL7JWd4FeWC/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(funcionario)
-      })
-      .then(() => {
-        alert("Formulário enviado com sucesso!");
-        location.reload();
-      })
-      .catch(err => {
-        alert("Erro ao enviar: " + err);
-      });
+      let lista = JSON.parse(localStorage.getItem("funcionarios")) || [];
+      lista.push(funcionario);
+      localStorage.setItem("funcionarios", JSON.stringify(lista));
+
+      alert("Formulário enviado com sucesso!");
+      location.reload();
     }
   </script>
 
